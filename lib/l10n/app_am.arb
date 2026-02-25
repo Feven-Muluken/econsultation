@@ -1,0 +1,18 @@
+{
+  "@@locale": "am",
+  "appTitle": "የኢ-ኮንሰልታሽን መተግበሪያ",
+  "welcomeTitle": "ድምፅዎ በህግ!",
+  "welcomeSubtitle": "የተዘጋጀ ህግ ማስታወቂያዎችን ይመልከቱ እና አስተያየትዎን ያካፍሉ።",
+  "registerButton": "መለያ ፍጠር",
+  "loginButton": "ግባ",
+  "emailLabel": "ኢሜይል ወይም ስልክ",
+  "passwordLabel": "የይለፍ ቃል",
+  "confirmPasswordLabel": "የይለፍ ቃል አረጋግጥ",
+  "otpTitle": "OTP አረጋግጥ",
+  "otpLabel": "6-አሃዝ OTP አስገባ",
+  "resendButton": "OTP እንደገና ላክ",
+  "homeTitle": "እንኳን ደህና መጡ",
+  "documentsTab": "ሰነዶች",
+  "feedbackTab": "አስተያየት",
+  "settingsTab": "ቅንብሮች"
+}

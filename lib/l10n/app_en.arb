@@ -1,0 +1,18 @@
+{
+  "@@locale": "en",
+  "appTitle": "E-Consultation App",
+  "welcomeTitle": "Your Voice in Law!",
+  "welcomeSubtitle": "Engage with draft laws and share feedback.",
+  "registerButton": "Create Account",
+  "loginButton": "Login",
+  "emailLabel": "Email or Phone",
+  "passwordLabel": "Password",
+  "confirmPasswordLabel": "Confirm Password",
+  "otpTitle": "Verify OTP",
+  "otpLabel": "Enter 6-digit OTP",
+  "resendButton": "Resend OTP",
+  "homeTitle": "Welcome",
+  "documentsTab": "Documents",
+  "feedbackTab": "Feedback",
+  "settingsTab": "Settings"
+}

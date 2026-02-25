@@ -1,0 +1,366 @@
+// import 'package:flutter/material.dart';
+
+// class AppTheme {
+//   static ThemeData get lightTheme {
+//     return ThemeData(
+//       // Color scheme based on your design system
+//       colorScheme: ColorScheme.fromSeed(
+//         seedColor: const Color(0xFF0F47AF), // Bright Blue
+//         brightness: Brightness.light,
+//       ),
+//       scaffoldBackgroundColor: const Color(0xFFFAFCFF), // Background
+
+//       // Typography (Inter font family)
+//       textTheme: const TextTheme(
+//         displayLarge: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 32,
+//           fontWeight: FontWeight.w700,
+//           letterSpacing: -0.75,
+//           color: Color(0xFF111417),
+//         ),
+//         displayMedium: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 28,
+//           fontWeight: FontWeight.w700,
+//           letterSpacing: -0.75,
+//           color: Color(0xFF111417),
+//         ),
+//         headlineLarge: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 24,
+//           fontWeight: FontWeight.w700,
+//           color: Color(0xFF111417),
+//         ),
+//         headlineMedium: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 22,
+//           fontWeight: FontWeight.w600,
+//           letterSpacing: -0.75,
+//           color: Color(0xFF111417),
+//         ),
+//         titleLarge: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 18,
+//           fontWeight: FontWeight.w700,
+//           color: Color(0xFF111417),
+//         ),
+//         titleMedium: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 18,
+//           fontWeight: FontWeight.w600,
+//           color: Color(0xFF111417),
+//         ),
+//         bodyLarge: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 16,
+//           fontWeight: FontWeight.w500,
+//           height: 1.62,
+//           color: Color(0xFF111417),
+//         ),
+//         bodyMedium: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 16,
+//           fontWeight: FontWeight.w400,
+//           height: 1.5,
+//           color: Color(0xFF647287),
+//         ),
+//         labelLarge: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 14,
+//           fontWeight: FontWeight.w600,
+//           height: 1.71,
+//           color: Color(0xFF111417),
+//         ),
+//         labelMedium: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 14,
+//           fontWeight: FontWeight.w500,
+//           height: 1.71,
+//           color: Color(0xFF111417),
+//         ),
+//         bodySmall: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 14,
+//           fontWeight: FontWeight.w400,
+//           height: 1.5,
+//           color: Color(0xFF647287),
+//         ),
+//         labelSmall: TextStyle(
+//           fontFamily: 'Inter',
+//           fontSize: 12,
+//           fontWeight: FontWeight.w600,
+//           height: 1.5,
+//           color: Color(0xFF647287),
+//         ),
+//       ),
+
+//       // Input styles
+//       inputDecorationTheme: InputDecorationTheme(
+//         contentPadding: const EdgeInsets.all(17),
+//         border: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(12),
+//           borderSide: const BorderSide(color: Color(0xFFDCE0E5)),
+//         ),
+//         focusedBorder: OutlineInputBorder(
+//           borderRadius: BorderRadius.circular(12),
+//           borderSide: const BorderSide(color: Color(0xFF0F47AF), width: 2),
+//         ),
+//       ),
+
+//       // Button stylaes
+//       elevatedButtonTheme: ElevatedButtonThemeData(
+//         style: ElevatedButton.styleFrom(
+//           backgroundColor: const Color(0xFF0F47AF),
+//           foregroundColor: Colors.white,
+//           textStyle: const TextStyle(
+//             fontFamily: 'Inter',
+//             fontSize: 16,
+//             fontWeight: FontWeight.w700,
+//           ),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(8),
+//           ),
+//         ),
+//       ),
+//       outlinedButtonTheme: OutlinedButtonThemeData(
+//         style: OutlinedButton.styleFrom(
+//           foregroundColor: const Color(0xFF0F47AF),
+//           side: const BorderSide(color: Color(0xFF0F47AF)),
+//           textStyle: const TextStyle(
+//             fontFamily: 'Inter',
+//             fontSize: 16,
+//             fontWeight: FontWeight.w600,
+//           ),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(8),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+import 'package:flutter/material.dart';
+
+class AppTheme {
+  // Brand Colors
+  static const Color primaryDark = Color(0xFF07276B);
+  static const Color primary = Color(0xFF0C326F);
+  static const Color primaryMid = Color(0xFF0D41A2);
+  static const Color primaryLight = Color(0xFF0F47AF);
+  
+  // Background & Surface
+  static const Color background = Color(0xFFFAFCFF);
+  static const Color surface = Colors.white;
+  
+  // Text Colors
+  static const Color primaryText = Color(0xFF111417);
+  static const Color secondaryText = Color(0xFF647287);
+  static const Color lightText = Color(0xFF475569);
+  
+  // Border & Input
+  static const Color borderColor = Color(0xFFDCE0E5);
+  static const Color inputBackground = Colors.white;
+  
+  // Status Colors
+  static const Color statusGreen = Color(0xFF15803D);
+  static const Color statusGreenBg = Color(0xFFDCFCE7);
+  static const Color statusGray = Color(0xFF647287);
+  static const Color statusGrayBg = Color(0xFFF0F0F0);
+  static const Color statusRed = Color(0xFFB91C1C);
+  static const Color statusRedBg = Color(0xFFFEE2E2);
+  
+  // Gradient
+  static const LinearGradient brandGradient = LinearGradient(
+    colors: [
+      primaryDark, 
+      primaryMid,
+      // primaryLight
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  
+  static ThemeData get lightTheme {
+
+    return ThemeData(
+      // Color scheme from Figma system
+      // colorScheme: const ColorScheme.light(
+      //   primary: Color(0xFF0F47AF), // Bright Blue
+      //   secondary: Color(0xFF0D41A2), // Medium Blue
+      //   background: Color(0xFFFAFCFF), // Background
+      //   surface: Colors.white,
+      //   onPrimary: Colors.white,
+      //   onSecondary: Colors.white,
+      //   onBackground: Color(0xFF111417), // Text Primary
+      //   onSurface: Color(0xFF647287), // Text Secondary
+      // ),
+
+      // scaffoldBackgroundColor: const Color(0xFFFAFCFF),
+
+      // Typography system (Inter font family)
+      textTheme: const TextTheme(
+        displayLarge: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 32,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 0.75,
+          height: 40 / 32,
+          color: Color(0xFF111417),
+        ),
+        displayMedium: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 28,
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.75,
+          height: 36 / 28,
+          color: Color(0xFF111417),
+        ),
+        headlineLarge: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          height: 32 / 24,
+          color: Color(0xFF111417),
+        ),
+        headlineMedium: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 22,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.85,
+          height: 28 / 22,
+          color: AppTheme.surface,
+        ),
+        titleLarge: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          height: 28 / 18,
+          color: Color(0xFF111417),
+        ),
+        titleMedium: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+          height: 28 / 18,
+          color: Color(0xFF111417),
+        ),
+        bodyLarge: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          height: 26 / 16,
+          color: Color(0xFF111417),
+        ),
+        bodyMedium: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          height: 24 / 16,
+          color: Color(0xFF647287),
+        ),
+        labelLarge: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          height: 24 / 14,
+          color: Color(0xFF111417),
+        ),
+        labelMedium: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          height: 24 / 14,
+          color: Color(0xFF111417),
+        ),
+        bodySmall: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          height: 21 / 14,
+          color: Color(0xFF647287),
+        ),
+        labelSmall: TextStyle(
+          fontFamily: 'Inter',
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          height: 18 / 12,
+          color: Color(0xFF647287),
+        ),
+      ),
+
+      // Input styles
+      inputDecorationTheme: InputDecorationTheme(
+        contentPadding: const EdgeInsets.all(17),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFFDCE0E5)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: Color(0xFF0F47AF), width: 2),
+        ),
+      ),
+
+      // Button styles
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color(0xFF0F47AF),
+          foregroundColor: Colors.white,
+          textStyle: const TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: const Color(0xFF0F47AF),
+          side: const BorderSide(color: Color(0xFF0F47AF)),
+          textStyle: const TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        ),
+      ),
+    );
+  }
+}
+
+class AppSpacing {
+  static const double xs = 4.0;
+  static const double sm = 8.0;
+  static const double md = 12.0;
+  static const double lg = 16.0;
+  static const double xl = 24.0;
+  static const double xxl = 32.0;
+}
+
+class AppRadius {
+  static const double sm = 8.0;
+  static const double md = 12.0;
+  static const double lg = 16.0;
+  static const double full = 9999.0;
+}
+
+class AppFontSizes {
+  static const double xs = 12.0;
+  static const double sm = 14.0;
+  static const double base = 16.0;
+  static const double lg = 18.0;
+  static const double xl = 22.0;
+  static const double xxl = 32.0;
+}

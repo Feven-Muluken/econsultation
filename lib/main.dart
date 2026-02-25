@@ -1,6 +1,13 @@
+import 'package:econsultation/core/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'core/theme.dart';
+import 'core/navigation/router.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
@@ -10,9 +17,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    return MaterialApp.router(
+      // title: 'Flutter Demo',
+      // theme: ThemeData(
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -28,9 +35,23 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //   colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+      // ),
+      title: 'E-Consultation App',
+      theme: AppTheme.lightTheme, 
+      debugShowCheckedModeBanner: false,
+      routerConfig: AppRouter.router,
+      // supportedLocales: const [
+      //   Locale('en', 'US'),
+      //   Locale('am', 'ET'),
+      // ],
+      // localizationsDelegates: const [
+      //   AppLocalizations.delegate,
+      //   GlobalMaterialLocalizations.delegate,
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalCupertinoLocalizations.delegate
+      // ],
+      // home: const MyHomePage(title: 'Flutter Demo Home Page for E-Consultatio-App'),
     );
   }
 }
