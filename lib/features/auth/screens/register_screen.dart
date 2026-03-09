@@ -1,7 +1,8 @@
 import 'package:econsultation/core/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:econsultation/core/services/mock_auth_api.dart';
+import 'package:econsultation/core/services/api_service.dart';
+import 'package:econsultation/core/storage/account_profile_storage.dart';
 
 
 class RegisterScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final ApiService _apiService = ApiService.instance;
   final _formKey = GlobalKey<FormState>();
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -47,10 +49,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             final horizontalPadding = (maxWidth * 0.06).clamp(16.0, 32.0);
             final verticalPadding = (maxHeight * 0.03).clamp(16.0, 32.0);
             final contentMaxWidth = maxWidth > 560 ? 560.0 : maxWidth;
-            final headerHeight = maxHeight * 0.5;
-            final logoSize = (maxWidth * 0.22).clamp(64.0, 120.0);
-            final illustrationHeight = (maxHeight * 0.28).clamp(180.0, 260.0);
-            final illustrationOverlap = illustrationHeight * 0.35;
             final ctaHeight = (maxHeight * 0.07).clamp(48.0, 64.0);
             final headerRadius = (maxWidth * 0.06).clamp(16.0, 28.0);
             return SingleChildScrollView(
@@ -91,12 +89,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // Image.asset(
-                                //   'assets/splash/logo.png',
-                                //   width: logoSize,
-                                //   height: logoSize,
-                                //   fit: BoxFit.contain,
-                                // ),
                                 SizedBox(height: maxHeight * 0.02),
                                 Text(
                                   'Create Your Account',
@@ -139,9 +131,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             // Last Name
                             _buildFormField(
                               theme: theme,
-                              label: 'Last Name',
+                              label: 'Middle Name',
                               controller: lastNameController,
-                              hintText: 'Enter your last name',
+                              hintText: 'Enter your middle name',
                             ),
                             const SizedBox(height: 20),
 
@@ -215,15 +207,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           isSubmitting = true;
                                         });
                                         try {
-                                          await MockAuthApi.instance.register(
+                                          await _apiService.signUp(
                                             firstName: firstNameController.text.trim(),
                                             lastName: lastNameController.text.trim(),
                                             email: emailController.text.trim(),
                                             password: passwordController.text,
+                                            middleName: lastNameController.text.trim(),
+                                            confirmPassword:
+                                                confirmPasswordController.text,
+                                          );
+                                          await AccountProfileStorage.saveRegisteredProfile(
+                                            firstName: firstNameController.text.trim(),
+                                            lastName: lastNameController.text.trim(),
+                                            email: emailController.text.trim(),
                                           );
                                           if (!mounted) return;
-                                          context.go('/otp');
-                                        } on AuthException catch (error) {
+                                          context.go('/register-success');
+                                        } on ApiServiceException catch (error) {
                                           if (!mounted) return;
                                           setState(() => submitError = error.message);
                                         } finally {
@@ -286,7 +286,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         "Already have an account?",
                                         style: theme.textTheme.bodyMedium?.copyWith(),
                                       ),                                       TextButton(
-                                        onPressed: () => context.go('/login'),
+                                        onPressed: () => context.go('/'),
                                         child: Text(
                                           'Sign in',
                                           style: theme.textTheme.bodyMedium?.copyWith(

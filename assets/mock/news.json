@@ -1,0 +1,65 @@
+[
+  {
+    "id": "news_1",
+    "title": "Digital Services Act moves to committee review",
+    "imageUrl": "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-21",
+    "summary": "Parliamentary committee begins review of the Digital Services Act draft."
+  },
+  {
+    "id": "news_2",
+    "title": "New cooperative amendment opens public consultation",
+    "imageUrl": "https://images.unsplash.com/photo-1450101215322-bf5cd27642fc?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-20",
+    "summary": "Stakeholders are invited to submit feedback on the cooperative amendment."
+  },
+  {
+    "id": "news_3",
+    "title": "Environmental protection draft published for comments",
+    "imageUrl": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-18",
+    "summary": "EPA releases draft regulation to strengthen conservation measures."
+  },
+  {
+    "id": "news_4",
+    "title": "Health procurement guideline update announced",
+    "imageUrl": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-17",
+    "summary": "Ministry of Health issues revised procurement rules for public hospitals."
+  },
+  {
+    "id": "news_5",
+    "title": "Fintech regulatory sandbox expands enrollment",
+    "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-15",
+    "summary": "Central bank opens the next intake for fintech innovation pilots."
+  },
+  {
+    "id": "news_6",
+    "title": "Urban transport safety regulation final draft released",
+    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-13",
+    "summary": "Transport authority publishes the final draft for internal review."
+  },
+  {
+    "id": "news_4",
+    "title": "Health procurement guideline update announced",
+    "imageUrl": "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-17",
+    "summary": "Ministry of Health issues revised procurement rules for public hospitals."
+  },
+  {
+    "id": "news_5",
+    "title": "Fintech regulatory sandbox expands enrollment",
+    "imageUrl": "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-15",
+    "summary": "Central bank opens the next intake for fintech innovation pilots."
+  },
+  {
+    "id": "news_8",
+    "title": "Urban transport safety regulation final draft released",
+    "imageUrl": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=60",
+    "publishedAt": "2026-02-13",
+    "summary": "Transport authority publishes the final draft for internal review."
+  }
+]

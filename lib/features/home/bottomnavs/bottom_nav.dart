@@ -19,11 +19,9 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.84),
+        color: AppTheme.surface,
         border: const Border(
-          top: BorderSide(color: Color(0xFFF4F4F4)),
-          left: BorderSide(color: Color(0xFFF4F4F4)),
-          right: BorderSide(color: Color(0xFFF4F4F4)),
+          top: BorderSide(color: AppTheme.borderSide),
         ),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(12),
@@ -33,22 +31,8 @@ class BottomNavBar extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Gradient line for selected tab
-          if (selectedIndex >= 0)
-            Container(
-              height: 4,
-              margin: EdgeInsets.only(
-                left: (selectedIndex * (MediaQuery.of(context).size.width / 4)),
-                top: 8,
-              ),
-              width: MediaQuery.of(context).size.width / 4,
-              decoration: const BoxDecoration(
-                gradient: AppTheme.brandGradient,
-                borderRadius: BorderRadius.all(Radius.circular(2)),
-              ),
-            ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -71,26 +55,35 @@ class BottomNavBar extends StatelessWidget {
     BuildContext context,
   ) {
     final isSelected = selectedIndex == index;
-    return GestureDetector(
+    return InkWell(
       onTap: () => onIndexChanged(index),
+      borderRadius: BorderRadius.circular(12),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             icon,
-            color: isSelected ? AppTheme.primaryDark : AppTheme.secondaryText,
+            color: isSelected ? AppTheme.primaryDark : AppTheme.statusGray,
             size: 24,
           ),
           const SizedBox(height: 4),
           Text(
             label,
-            // style: AppTheme.textStyle11.copyWith(
-            //   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-            //   color: isSelected
-            //       ? AppTheme.primaryDark
-            //       : AppTheme.secondaryText,
-            // ),
+            style: AppTheme.lightTheme.textTheme.labelSmall?.copyWith(
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+              color: isSelected ? AppTheme.primaryDark : AppTheme.statusGray,
+            ),
             textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 6),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            height: 3,
+            width: 28,
+            decoration: BoxDecoration(
+              color: isSelected ? AppTheme.primaryDark : Colors.transparent,
+              borderRadius: BorderRadius.circular(999),
+            ),
           ),
         ],
       ),

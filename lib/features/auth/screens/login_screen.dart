@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:econsultation/core/theme.dart';
 
-import 'package:econsultation/core/services/mock_auth_api.dart';
+import 'package:econsultation/core/services/api_service.dart';
+import 'package:econsultation/core/storage/account_profile_storage.dart';
 import 'package:econsultation/core/storage/secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final ApiService _apiService = ApiService.instance;
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -41,14 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
             final horizontalPadding = (maxWidth * 0.06).clamp(16.0, 32.0);
             final verticalPadding = (maxHeight * 0.03).clamp(16.0, 32.0);
             final contentMaxWidth = maxWidth > 560 ? 560.0 : maxWidth;
-            final headerHeight = maxHeight * 0.5;
             final logoSize = (maxWidth * 0.22).clamp(64.0, 120.0);
-            final illustrationHeight = (maxHeight * 0.28).clamp(180.0, 260.0);
-            final illustrationOverlap = illustrationHeight * 0.35;
             final ctaHeight = (maxHeight * 0.07).clamp(48.0, 64.0);
             final headerRadius = (maxWidth * 0.06).clamp(16.0, 28.0);
             return SingleChildScrollView(
-              // body: SingleChildScrollView(
               child: Column(
                 children: [
                   // Header with gradient
@@ -63,6 +61,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Stack(
                       children: [
+                        // Positioned(
+                        //   left: 0,
+                        //   bottom: 0,
+                        //   child: Image.asset(
+                        //     'assets/splash/backlogo.png',
+                        //     // 'assets/splash/path2.png',
+                        //     width: 100,
+                        //     height: 100,
+                        //     fit: BoxFit.contain,
+                        //   ),
+                        // ),
                         Center(
                           child: Padding(
                             padding: EdgeInsets.fromLTRB(
@@ -231,7 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: TextButton(
-                                        onPressed: () {},
+                                        onPressed: () => context.go('/forgot-password'),
                                         child: Text(
                                           'Forgot password?',
                                           style: theme.textTheme.bodySmall?.copyWith(
@@ -248,7 +257,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Text(
                                   loginError!,
                                   style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: Colors.red,
+                                    color: AppTheme.statusRed,
                                   ),
                                   textAlign: TextAlign.center,
                                 ),
@@ -259,31 +268,78 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: ctaHeight,
                                 child: ElevatedButton(
                                   onPressed: isSubmitting
-                                      ? null
-                                      : () async {
-                                          final isValid = _formKey.currentState?.validate() ?? false;
-                                          if (!isValid) return;
-                                          setState(() {
-                                            loginError = null;
-                                            isSubmitting = true;
-                                          });
-                                          try {
-                                            final token = await MockAuthApi.instance.login(
-                                              email: emailController.text.trim(),
-                                              password: passwordController.text,
-                                            );
-                                            await SecureStorage.writeToken(token);
-                                            if (!mounted) return;
-                                            context.go('/home');
-                                          } on AuthException catch (error) {
-                                            if (!mounted) return;
-                                            setState(() => loginError = error.message);
-                                          } finally {
-                                            if (mounted) {
-                                              setState(() => isSubmitting = false);
+                                  ? null
+                                  : () async {
+                                    final isValid = _formKey.currentState?.validate() ?? false;
+                                    if (!isValid) return;
+                                    setState(() {
+                                      loginError = null;
+                                      isSubmitting = true;
+                                    });
+                                    try {
+                                      final token = await _apiService.login(
+                                        email:
+                                            emailController.text.trim(),
+                                        password: passwordController.text,
+                                      );
+                                      final userId=await _apiService.logintoGetID(  
+                                        email: emailController.text.trim(),
+                                        password: passwordController.text,
+                                      );
+                                      await SecureStorage.writeUserId(userId);
+                                      await SecureStorage.writeToken(token);
+                                      await AccountProfileStorage.setActiveUserIdentifier(
+                                        emailController.text.trim(),
+                                      );
+                                      try {
+                                        final portfolio = await _apiService.fetchPortfolio(userId);
+
+                                        String? readString(List<String> keys) {
+                                          for (final key in keys) {
+                                            final value = portfolio[key];
+                                            if (value is String && value.trim().isNotEmpty) {
+                                              return value.trim();
                                             }
                                           }
-                                        },
+                                          return null;
+                                        }
+
+                                        final firstName =
+                                            readString(const ['first_name', 'firstName']);
+                                        final middleName =
+                                            readString(const ['middle_name', 'middleName']);
+                                        final lastName =
+                                            readString(const ['last_name', 'lastName']);
+                                        final joinedName = [
+                                          if (firstName != null) firstName,
+                                          if (middleName != null) middleName,
+                                          if (lastName != null) lastName,
+                                        ].where((part) => part.trim().isNotEmpty).join(' ');
+                                        final fullName =
+                                            readString(const ['full_name', 'fullName', 'name']) ??
+                                            (joinedName.isNotEmpty ? joinedName : null);
+
+                                        await AccountProfileStorage.saveProfile({
+                                          if (firstName != null) 'firstName': firstName,
+                                          if (lastName != null) 'lastName': lastName,
+                                          if (fullName != null) 'fullName': fullName,
+                                          if (readString(const ['email']) != null)
+                                            'email': readString(const ['email']),
+                                          if (readString(const ['phone', 'phone_number']) != null)
+                                            'phone': readString(const ['phone', 'phone_number']),
+                                        });
+                                      } catch (_) {}
+                                      if (!mounted) return;
+                                      context.go('/home');
+                                    } on ApiServiceException catch (error) {
+                                      if (!mounted) return;
+                                      setState(() => loginError = error.message);
+                                    } finally {
+                                      if (mounted) {
+                                        setState(() => isSubmitting = false);
+                                      }
+                                    }
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     shape: RoundedRectangleBorder(

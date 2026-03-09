@@ -1,57 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
-
-// class OtpScreen extends StatefulWidget {
-//   const OtpScreen({super.key});
-
-//   @override
-//   State<OtpScreen> createState() => _OtpScreenState();
-// }
-
-// class _OtpScreenState extends State<OtpScreen> {
-//   final _otpController = TextEditingController();
-//   int _secondsRemaining = 60;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     Future.delayed(const Duration(seconds: 1), _tick);
-//   }
-
-//   void _tick() {
-//     if (_secondsRemaining > 0) {
-//       setState(() => _secondsRemaining--);
-//       Future.delayed(const Duration(seconds: 1), _tick);
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: const Text("Verify OTP")),
-//       body: Padding(
-//         padding: const EdgeInsets.all(24.0),
-//         child: Column(
-//           children: [
-//             TextFormField(controller: _otpController, decoration: const InputDecoration(labelText: "Enter 6-digit OTP")),
-//             const SizedBox(height: 20),
-//             ElevatedButton(
-//               onPressed: () => context.go('/login'),
-//               child: const Text("Verify"),
-//             ),
-//             const SizedBox(height: 20),
-//             Text("Resend in $_secondsRemaining seconds"),
-//             TextButton(onPressed: () {}, child: const Text("Resend OTP")),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:econsultation/core/theme.dart';
@@ -238,7 +184,7 @@ class _OtpScreenState extends State<OtpScreen> {
                                       try {
                                         await MockAuthApi.instance.verifyOtp(otp: otp);
                                         if (!mounted) return;
-                                        context.go('/login');
+                                        context.go('/');
                                       } on AuthException catch (error) {
                                         if (!mounted) return;
                                         setState(() => otpError = error.message);
@@ -374,6 +320,7 @@ class _OtpScreenState extends State<OtpScreen> {
         maxLength: 1,
         textAlign: TextAlign.center,
         style: theme.textTheme.headlineLarge?.copyWith(
+          color: AppTheme.primaryText
         ),
         decoration: InputDecoration(
           counterText: '',

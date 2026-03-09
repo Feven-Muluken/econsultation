@@ -7,6 +7,7 @@ import 'core/theme.dart';
 import 'core/navigation/router.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }

@@ -46,6 +46,13 @@ dependencies:
   dio: ^5.9.1
   flutter_dotenv: ^6.0.0
   hover: ^0.4.2
+  share_plus: ^10.1.4
+  path_provider: ^2.1.4
+  open_filex: ^4.4.0
+  image_picker: ^1.1.2
+  file_picker: ^8.1.2
+  d: ^0.0.1+1
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +82,8 @@ flutter:
   assets:
     - .env
     - assets/splash/ 
-    - lib/core
+    - assets/mock/
+    - lib/core/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -109,7 +117,7 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 flutter_launcher_icons:
   # android: "launcher_icon"
-  image_path: "assets/icon/icon.png"
+  image_dark: assets/splash/Group.png
   android: true 
   ios: true 
   linux: true 
@@ -118,7 +126,7 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#FAFCFF"
-  image: assets/splash/logo.png
+  image: assets/splash/Group.png
   android: true
   ios: true
   web: true

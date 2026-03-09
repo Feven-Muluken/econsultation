@@ -5,6 +5,30 @@ allprojects {
     }
 }
 
+subprojects {
+    afterEvaluate {
+        val androidExtension = extensions.findByName("android")
+        if (androidExtension == null) {
+            return@afterEvaluate
+        }
+
+        val getNamespace = androidExtension.javaClass.methods.find {
+            it.name == "getNamespace" && it.parameterCount == 0
+        }
+        val setNamespace = androidExtension.javaClass.methods.find {
+            it.name == "setNamespace" && it.parameterCount == 1
+        }
+
+        if (getNamespace != null && setNamespace != null) {
+            val currentNamespace = getNamespace.invoke(androidExtension) as String?
+            if (currentNamespace == null || currentNamespace.isBlank()) {
+                val fallback = "com.econsultation.${project.name.replace('-', '_')}"
+                setNamespace.invoke(androidExtension, fallback)
+            }
+        }
+    }
+}
+
 val newBuildDir: Directory =
     rootProject.layout.buildDirectory
         .dir("../../build")
