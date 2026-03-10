@@ -31,10 +31,7 @@ enum _DownloadUiState { idle, downloading, done }
 class RegulationDetailScreen extends StatefulWidget {
   final String regulationId;
 
-  const RegulationDetailScreen({
-    super.key,
-    required this.regulationId,
-  });
+  const RegulationDetailScreen({super.key, required this.regulationId});
 
   @override
   State<RegulationDetailScreen> createState() => _RegulationDetailScreenState();
@@ -56,14 +53,14 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
   String? _downloadedFilePath;
   _DownloadUiState _downloadUiState = _DownloadUiState.idle;
   bool _isBookmarked = false;
-    final Map<String, List<_InlineSectionComment>> _localSectionComments =
+  final Map<String, List<_InlineSectionComment>> _localSectionComments =
       <String, List<_InlineSectionComment>>{};
   final Map<String, String> _sectionCommentDrafts = <String, String>{};
   final Map<String, bool> _sectionCommentComposerVisible = <String, bool>{};
   final Map<String, String?> _editingCommentIdByDraftKey = <String, String?>{};
-    final Map<String, String?> _sectionAttachmentName = <String, String?>{};
-    final Map<String, bool> _sectionSuccessVisible = <String, bool>{};
-    int _localCommentCounter = 0;
+  final Map<String, String?> _sectionAttachmentName = <String, String?>{};
+  final Map<String, bool> _sectionSuccessVisible = <String, bool>{};
+  int _localCommentCounter = 0;
   CancelToken? _downloadCancelToken;
   String _selectedLanguage = 'English';
   Timer? _downloadResetTimer;
@@ -78,9 +75,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
       _regulationFuture = _loadRegulationFromDraft(backendDraftId);
       _sectionsFuture = _draftApi.fetchDraftSections(backendDraftId);
     } else {
-      _regulationFuture = _api
-          .fetchRegulationById(widget.regulationId)
-          .then((regulation) {
+      _regulationFuture = _api.fetchRegulationById(widget.regulationId).then((
+        regulation,
+      ) {
         _currentRegulation = regulation;
         return regulation;
       });
@@ -103,7 +100,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
     _currentDraftDetail = detail;
 
     final updatedAt = detail.updatedAt ?? '';
-    final normalizedDate = updatedAt.length >= 10 ? updatedAt.substring(0, 10) : updatedAt;
+    final normalizedDate = updatedAt.length >= 10
+        ? updatedAt.substring(0, 10)
+        : updatedAt;
 
     final mapped = Regulation(
       id: detail.id.toString(),
@@ -275,9 +274,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
       setState(() {
         _downloadUiState = _DownloadUiState.idle;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Download failed: $error')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Download failed: $error')));
     }
   }
 
@@ -307,9 +306,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Share link copied.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Share link copied.')));
       return;
     }
 
@@ -330,9 +329,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Unable to share file: $error')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Unable to share file: $error')));
       await Share.share(
         '${regulation.title}\n${regulation.documentUrl}',
         subject: regulation.title,
@@ -412,9 +411,7 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                     children: [
                       Text(
                         'Share Document',
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
+                        style: Theme.of(context).textTheme.titleMedium
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       IconButton(
@@ -427,8 +424,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                   Text(
                     'Choose format',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: AppTheme.secondaryText,
-                        ),
+                      color: AppTheme.secondaryText,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Wrap(
@@ -461,8 +458,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                   Text(
                     'Share to',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: AppTheme.secondaryText,
-                        ),
+                      color: AppTheme.secondaryText,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   _buildSharePlatformTile(
@@ -658,13 +655,16 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
         )
         .toList(growable: false);
 
-    final localComments = _localSectionComments['draft_${section.id}'] ??
+    final localComments =
+        _localSectionComments['draft_${section.id}'] ??
         const <_InlineSectionComment>[];
 
     return <_InlineSectionComment>[...serverComments, ...localComments];
   }
 
-  List<_InlineSectionComment> _commentsForMockSection(RegulationSection section) {
+  List<_InlineSectionComment> _commentsForMockSection(
+    RegulationSection section,
+  ) {
     return _localSectionComments['mock_${section.sectionTitle}'] ??
         const <_InlineSectionComment>[];
   }
@@ -675,15 +675,13 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
       return;
     }
     setState(() {
-      _localSectionComments[draftKey] =
-          list.where((comment) => comment.id != commentId).toList();
+      _localSectionComments[draftKey] = list
+          .where((comment) => comment.id != commentId)
+          .toList();
     });
   }
 
-  void _editSectionComment(
-    String draftKey,
-    _InlineSectionComment comment,
-  ) {
+  void _editSectionComment(String draftKey, _InlineSectionComment comment) {
     setState(() {
       _sectionCommentDrafts[draftKey] = comment.body;
       _sectionCommentComposerVisible[draftKey] = true;
@@ -691,10 +689,7 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
     });
   }
 
-  void _replyToSectionComment(
-    String draftKey,
-    _InlineSectionComment comment,
-  ) {
+  void _replyToSectionComment(String draftKey, _InlineSectionComment comment) {
     setState(() {
       _sectionCommentDrafts[draftKey] = '@${comment.author} ';
       _sectionCommentComposerVisible[draftKey] = true;
@@ -730,7 +725,10 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
     }
 
     try {
-      await _draftApi.postSectionComment(sectionId: sectionId, comment: message);
+      await _draftApi.postSectionComment(
+        sectionId: sectionId,
+        comment: message,
+      );
       final regulation = _currentRegulation;
       if (regulation != null) {
         final entry = FeedbackEntry(
@@ -750,9 +748,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
       if (!mounted) {
         return;
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Comment submitted.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Comment submitted.')));
     } catch (_) {
       if (!mounted) {
         return;
@@ -823,7 +821,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
   void _submitInlineMockSectionComment(RegulationSection section) {
     if (!_isAuthenticated) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please sign in to add section comments.')),
+        const SnackBar(
+          content: Text('Please sign in to add section comments.'),
+        ),
       );
       return;
     }
@@ -831,7 +831,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
     final regulation = _currentRegulation;
     if (regulation != null && !_isRegulationCommentWindowOpen(regulation)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Comment period is closed for this section.')),
+        const SnackBar(
+          content: Text('Comment period is closed for this section.'),
+        ),
       );
       return;
     }
@@ -886,7 +888,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
   Widget _buildSectionsCard() {
     final future = _sectionsFuture;
     if (future == null) {
-      final sections = _currentRegulation?.sections ?? const <RegulationSection>[];
+      final sections =
+          _currentRegulation?.sections ?? const <RegulationSection>[];
       if (sections.isEmpty) {
         return const SizedBox.shrink();
       }
@@ -896,9 +899,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
         children: [
           Text(
             'Sections',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 10),
           ...sections.map(_buildMockSectionTile),
@@ -930,9 +933,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
           children: [
             Text(
               'Document Content',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 10),
             ...sections.map((section) => _buildSectionTile(section, 0)),
@@ -958,13 +961,21 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
     }
 
     final now = DateTime.now();
-    final closeAtEndOfDay = DateTime(parsed.year, parsed.month, parsed.day, 23, 59, 59);
+    final closeAtEndOfDay = DateTime(
+      parsed.year,
+      parsed.month,
+      parsed.day,
+      23,
+      59,
+      59,
+    );
     return !now.isAfter(closeAtEndOfDay);
   }
 
   Widget _buildMockSectionTile(RegulationSection section) {
     final regulation = _currentRegulation;
-    final canComment = regulation != null &&
+    final canComment =
+        regulation != null &&
         _isAuthenticated &&
         _isRegulationCommentWindowOpen(regulation);
     final draftKey = 'mock_${section.sectionTitle}';
@@ -988,9 +999,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
             children: [
               Text(
                 section.sectionTitle,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
               ),
               if (section.articles.isNotEmpty) ...[
                 const SizedBox(height: 8),
@@ -1008,9 +1019,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
               const Divider(color: AppTheme.borderColor, height: 16),
               Text(
                 'Comments (${comments.length})',
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
               ),
               const SizedBox(height: 8),
               if (comments.isNotEmpty)
@@ -1024,8 +1035,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                 Text(
                   'No comments yet.',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppTheme.secondaryText,
-                      ),
+                    color: AppTheme.secondaryText,
+                  ),
                 ),
               const SizedBox(height: 8),
               if (composerVisible) ...[
@@ -1038,14 +1049,17 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                         enabled: canComment,
                         minLines: 2,
                         maxLines: 4,
-                        onChanged: (value) => _sectionCommentDrafts[draftKey] = value,
+                        onChanged: (value) =>
+                            _sectionCommentDrafts[draftKey] = value,
                         decoration: InputDecoration(
                           hintText: 'Write section comment',
                           filled: true,
                           fillColor: AppTheme.inputField,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppTheme.borderColor),
+                            borderSide: const BorderSide(
+                              color: AppTheme.borderColor,
+                            ),
                           ),
                         ),
                       ),
@@ -1057,7 +1071,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                           : null,
                       icon: Icon(
                         Icons.send,
-                        color: canComment ? AppTheme.primaryDark : AppTheme.statusGray,
+                        color: canComment
+                            ? AppTheme.primaryDark
+                            : AppTheme.statusGray,
                       ),
                     ),
                   ],
@@ -1076,7 +1092,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                           : () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Sign in and open comment window to attach files.'),
+                                  content: Text(
+                                    'Sign in and open comment window to attach files.',
+                                  ),
                                 ),
                               );
                             },
@@ -1088,8 +1106,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: AppTheme.secondaryText,
-                            ),
+                          color: AppTheme.secondaryText,
+                        ),
                       ),
                     ),
                   ],
@@ -1100,7 +1118,10 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.statusGreen,
                     borderRadius: BorderRadius.circular(8),
@@ -1108,9 +1129,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                   child: Text(
                     'Thank you for your feedback.',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.surface,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      color: AppTheme.surface,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               Align(
@@ -1118,7 +1139,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                 child: InkWell(
                   onTap: canComment
                       ? () => setState(() {
-                          _sectionCommentComposerVisible[draftKey] = !composerVisible;
+                          _sectionCommentComposerVisible[draftKey] =
+                              !composerVisible;
                         })
                       : null,
                   child: Text(
@@ -1126,11 +1148,11 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                         ? 'Editing comment (${comments.length})'
                         : 'Add comment (${comments.length})',
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: canComment
-                              ? AppTheme.primary
-                              : AppTheme.primary.withValues(alpha: 0.45),
-                          fontWeight: FontWeight.w600,
-                        ),
+                      color: canComment
+                          ? AppTheme.primary
+                          : AppTheme.primary.withValues(alpha: 0.45),
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -1141,12 +1163,13 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
     );
   }
 
-
   Widget _buildSectionTile(DraftSection section, int depth) {
     final plainBody = _stripHtml(section.body);
     final hasSectionBody = plainBody.isNotEmpty;
-    final canComment = _isAuthenticated &&
-        (_currentDraftDetail == null || _isCommentWindowOpen(_currentDraftDetail!));
+    final canComment =
+        _isAuthenticated &&
+        (_currentDraftDetail == null ||
+            _isCommentWindowOpen(_currentDraftDetail!));
     final draftKey = 'draft_${section.id}';
     final draftValue = _sectionCommentDrafts[draftKey] ?? '';
     final composerVisible = _sectionCommentComposerVisible[draftKey] ?? false;
@@ -1157,39 +1180,34 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
       children: [
         Text(
           section.title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w700,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
         ),
         if (hasSectionBody) ...[
           const SizedBox(height: 8),
-          Text(
-            plainBody,
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
+          Text(plainBody, style: Theme.of(context).textTheme.bodySmall),
         ],
         if (hasSectionBody) ...[
           const SizedBox(height: 16),
           Text(
             'Comments (${comments.length})',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
           ),
           const SizedBox(height: 8),
           if (comments.isNotEmpty)
             ...comments.map(
-              (comment) => _buildInlineCommentCard(
-                draftKey: draftKey,
-                comment: comment,
-              ),
+              (comment) =>
+                  _buildInlineCommentCard(draftKey: draftKey, comment: comment),
             )
-          else    
+          else
             Text(
               'No comments yet.',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppTheme.secondaryText,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodySmall?.copyWith(color: AppTheme.secondaryText),
             ),
           const SizedBox(height: 8),
           if (composerVisible) ...[
@@ -1202,24 +1220,31 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                     enabled: canComment,
                     minLines: 2,
                     maxLines: 4,
-                    onChanged: (value) => _sectionCommentDrafts[draftKey] = value,
+                    onChanged: (value) =>
+                        _sectionCommentDrafts[draftKey] = value,
                     decoration: InputDecoration(
                       hintText: 'Write section comment',
                       filled: true,
                       fillColor: AppTheme.inputField,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: AppTheme.borderColor),
+                        borderSide: const BorderSide(
+                          color: AppTheme.borderColor,
+                        ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 8),
                 IconButton(
-                  onPressed: canComment ? () => _submitInlineSectionComment(section) : null,
+                  onPressed: canComment
+                      ? () => _submitInlineSectionComment(section)
+                      : null,
                   icon: Icon(
                     Icons.send,
-                    color: canComment ? AppTheme.primaryDark : AppTheme.statusGray,
+                    color: canComment
+                        ? AppTheme.primaryDark
+                        : AppTheme.statusGray,
                   ),
                 ),
               ],
@@ -1238,7 +1263,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                       : () {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Sign in and open comment window to attach files.'),
+                              content: Text(
+                                'Sign in and open comment window to attach files.',
+                              ),
                             ),
                           );
                         },
@@ -1250,15 +1277,15 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: AppTheme.secondaryText,
-                        ),
+                      color: AppTheme.secondaryText,
+                    ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 6),
           ],
-          
+
           if (_sectionSuccessVisible[draftKey] == true)
             Container(
               width: double.infinity,
@@ -1271,9 +1298,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
               child: Text(
                 'Thank you for your feedback.',
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.surface,
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: AppTheme.surface,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           Align(
@@ -1281,7 +1308,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
             child: InkWell(
               onTap: canComment
                   ? () => setState(() {
-                      _sectionCommentComposerVisible[draftKey] = !composerVisible;
+                      _sectionCommentComposerVisible[draftKey] =
+                          !composerVisible;
                     })
                   : null,
               child: Text(
@@ -1289,20 +1317,22 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                     ? 'Editing comment (${comments.length})'
                     : 'Add comment (${comments.length})',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: canComment
-                          ? AppTheme.primary
-                          : AppTheme.primary.withValues(alpha: 0.45),
-                      fontWeight: FontWeight.w600,
-                    ),
+                  color: canComment
+                      ? AppTheme.primary
+                      : AppTheme.primary.withValues(alpha: 0.45),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
-                  const Divider(color: AppTheme.borderColor, height: 16),
+          const Divider(color: AppTheme.borderColor, height: 16),
         ],
 
         if (section.children.isNotEmpty) ...[
           const SizedBox(height: 8),
-          ...section.children.map((child) => _buildSectionTile(child, depth + 1)),
+          ...section.children.map(
+            (child) => _buildSectionTile(child, depth + 1),
+          ),
         ],
       ],
     );
@@ -1320,10 +1350,7 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
           borderRadius: BorderRadius.circular(12),
           side: const BorderSide(color: AppTheme.borderColor),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: content,
-        ),
+        child: Padding(padding: const EdgeInsets.all(24), child: content),
       ),
     );
   }
@@ -1348,11 +1375,13 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                 radius: 12,
                 backgroundColor: AppTheme.statusGray,
                 child: Text(
-                  comment.author.isNotEmpty ? comment.author[0].toUpperCase() : 'U',
+                  comment.author.isNotEmpty
+                      ? comment.author[0].toUpperCase()
+                      : 'U',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppTheme.surface,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    color: AppTheme.surface,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -1360,8 +1389,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                 child: Text(
                   comment.author,
                   style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               if (comment.isMine)
@@ -1383,9 +1412,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
           const SizedBox(height: 6),
           Text(
             comment.body,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppTheme.primaryText,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppTheme.primaryText),
           ),
           if (!comment.isMine)
             Align(
@@ -1395,9 +1424,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                 child: Text(
                   'Reply',
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: AppTheme.primary,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    color: AppTheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -1448,10 +1477,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                 children: [
                   Text(
                     'Provide Feedback',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(fontWeight: FontWeight.w700),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   IconButton(
                     onPressed: () => Navigator.of(context).pop(),
@@ -1490,9 +1518,7 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                     Navigator.of(context).pop();
                     _feedbackController.clear();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Feedback submitted.'),
-                      ),
+                      const SnackBar(content: Text('Feedback submitted.')),
                     );
                   },
                   child: const Text('Submit'),
@@ -1508,7 +1534,7 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       backgroundColor: AppTheme.background,
       body: LayoutBuilder(
@@ -1571,9 +1597,9 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                                         textAlign: TextAlign.center,
                                         style: theme.textTheme.headlineMedium
                                             ?.copyWith(
-                                          color: AppTheme.surface,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                              color: AppTheme.surface,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       ),
                                     ),
                                     IconButton(
@@ -1596,15 +1622,11 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                   ),
                 ),
                 Expanded(
-                  child: FutureBuilder<Regulation?>(                    
+                  child: FutureBuilder<Regulation?>(
                     future: _regulationFuture,
                     builder: (context, snapshot) {
-                      if (
-                        snapshot.connectionState == ConnectionState.waiting
-                        ) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
                       }
                       if (snapshot.hasError) {
                         return const Center(
@@ -1618,19 +1640,23 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                         );
                       }
 
-                      final statusColors = _statusColors(regulation.commentClosed? 'closed' : 'open');
-                          final canComment = _isGeneralCommentAllowed(regulation);
+                      final statusColors = _statusColors(
+                        regulation.commentClosed ? 'closed' : 'open',
+                      );
+                      final canComment = _isGeneralCommentAllowed(regulation);
 
-                      final downloadIcon = _downloadUiState == _DownloadUiState.done
+                      final downloadIcon =
+                          _downloadUiState == _DownloadUiState.done
                           ? Icons.download_done
                           : _downloadUiState == _DownloadUiState.downloading
-                              ? Icons.downloading
-                              : Icons.download;
-                      final downloadLabel = _downloadUiState == _DownloadUiState.done
-                          ? 'Downloaded'
+                          ? Icons.downloading
+                          : Icons.download;
+                      final downloadLabel =
+                          _downloadUiState == _DownloadUiState.done
+                          ? 'Open file'
                           : _downloadUiState == _DownloadUiState.downloading
-                              ? 'Downloading'
-                              : 'Download';
+                          ? 'Downloading'
+                          : 'Download';
 
                       return Stack(
                         children: [
@@ -1644,244 +1670,309 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 16
-                                    ),
-                                    decoration: BoxDecoration(
-                                      // color: const Color(0xFFF2F5FB),
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: AppTheme.borderColor),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text.rich(
-                                                TextSpan(
-                                                  text: 'Opening Date: ',
-                                                  style: theme.textTheme.displaySmall
-                                                      ?.copyWith(
-                                                    color: AppTheme.lightText,
-                                                  ),
-                                                  children: [
-                                                    TextSpan(
-                                                      text: _openingDateText(),
-                                                      style: theme.textTheme.displaySmall
-                                                          ?.copyWith(
-                                                        color: AppTheme.secondaryText,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(width: 12),
-
-                                            Expanded(
-                                              child: Text.rich(
-                                                TextSpan(
-                                                  text: 'Closing Date: ',
-                                                  style: theme.textTheme.displaySmall
-                                                      ?.copyWith(
-                                                    color: AppTheme.lightText,
-                                                  ),
-                                                  children: [
-                                                    TextSpan(
-                                                      text: _closingDateText(regulation),
-                                                      style: theme.textTheme.displaySmall
-                                                          ?.copyWith(
-                                                        color: AppTheme.secondaryText,
-                                                        fontWeight: FontWeight.w600,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(height: 18),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Container(
-                                                alignment: Alignment.center,
-                                                padding: const EdgeInsets.symmetric(
-                                                  horizontal: 12,
-                                                  vertical: 6,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: statusColors.background,
-                                                  borderRadius:
-                                                      BorderRadius.circular(999),
-                                                ),
-                                                child: Text(
-                                                  _commentStatusText(regulation),
-                                                  style: theme.textTheme.labelSmall
-                                                      ?.copyWith(
-                                                    color: statusColors.text,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ),
-
-                                            ),
-                                            const SizedBox(width: 12),
-                                            Expanded(
-                                              child: Text.rich(
-                                                TextSpan(
-                                                  text: 'Law Category: ',
-                                                  style: theme.textTheme.labelSmall?.copyWith(
-                                                    color: AppTheme.lightText,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  children: [
-                                                    TextSpan(
-                                                      text: regulation.category,
-                                                      style: theme.textTheme.labelSmall?.copyWith(
-                                                        color: AppTheme.secondaryText,
-                                                        fontWeight: FontWeight.w500,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text.rich(
-                                            TextSpan(
-                                              text: 'Institution: ',
-                                              style: theme.textTheme.labelSmall?.copyWith(
-                                                color: AppTheme.lightText,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              children: [
-                                                TextSpan(
-                                                  text: regulation.agency,
-                                                  style: theme.textTheme.labelSmall?.copyWith(
-                                                    color: AppTheme.secondaryText,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            _commentRuleHint(regulation),
-                                            style: theme.textTheme.bodySmall?.copyWith(
-                                              color: canComment
-                                                  ? AppTheme.secondaryText
-                                                  : AppTheme.statusRed,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ),
-                                        // const SizedBox(height: 16),
-                                      ]
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 16,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    // color: const Color(0xFFF2F5FB),
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: AppTheme.borderColor,
                                     ),
                                   ),
-                                  // child: Column()
-                                  const SizedBox(height: 24),
-                                  Row(
+                                  child: Column(
                                     children: [
-                                      _buildDocLanguageToggle(),
-                                      const Spacer(),
-                                      _buildDownloadFeatureButton(
-                                        icon: downloadIcon,          
-                                        label: downloadLabel,
-                                        onPressed: _downloadUiState ==
-                                                _DownloadUiState.downloading
-                                            ? null
-                                            : _downloadUiState ==
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text.rich(
+                                              TextSpan(
+                                                text: 'Opening Date: ',
+                                                style: theme
+                                                    .textTheme
+                                                    .displaySmall
+                                                    ?.copyWith(
+                                                      color: AppTheme.lightText,
+                                                    ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: _openingDateText(),
+                                                    style: theme
+                                                        .textTheme
+                                                        .displaySmall
+                                                        ?.copyWith(
+                                                          color: AppTheme
+                                                              .secondaryText,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+
+                                          Expanded(
+                                            child: Text.rich(
+                                              TextSpan(
+                                                text: 'Closing Date: ',
+                                                style: theme
+                                                    .textTheme
+                                                    .displaySmall
+                                                    ?.copyWith(
+                                                      color: AppTheme.lightText,
+                                                    ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: _closingDateText(
+                                                      regulation,
+                                                    ),
+                                                    style: theme
+                                                        .textTheme
+                                                        .displaySmall
+                                                        ?.copyWith(
+                                                          color: AppTheme
+                                                              .secondaryText,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 18),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              alignment: Alignment.center,
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 12,
+                                                    vertical: 6,
+                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: statusColors.background,
+                                                borderRadius:
+                                                    BorderRadius.circular(999),
+                                              ),
+                                              child: Text(
+                                                _commentStatusText(regulation),
+                                                style: theme
+                                                    .textTheme
+                                                    .labelSmall
+                                                    ?.copyWith(
+                                                      color: statusColors.text,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Text.rich(
+                                              TextSpan(
+                                                text: 'Law Category: ',
+                                                style: theme
+                                                    .textTheme
+                                                    .labelSmall
+                                                    ?.copyWith(
+                                                      color: AppTheme.lightText,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                children: [
+                                                  TextSpan(
+                                                    text: regulation.category,
+                                                    style: theme
+                                                        .textTheme
+                                                        .labelSmall
+                                                        ?.copyWith(
+                                                          color: AppTheme
+                                                              .secondaryText,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text.rich(
+                                          TextSpan(
+                                            text: 'Institution: ',
+                                            style: theme.textTheme.labelSmall
+                                                ?.copyWith(
+                                                  color: AppTheme.lightText,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                            children: [
+                                              TextSpan(
+                                                text: regulation.agency,
+                                                style: theme
+                                                    .textTheme
+                                                    .labelSmall
+                                                    ?.copyWith(
+                                                      color: AppTheme
+                                                          .secondaryText,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          _commentRuleHint(regulation),
+                                          style: theme.textTheme.bodySmall
+                                              ?.copyWith(
+                                                color: canComment
+                                                    ? AppTheme.secondaryText
+                                                    : AppTheme.statusRed,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ),
+                                      // const SizedBox(height: 16),
+                                    ],
+                                  ),
+                                ),
+                                // child: Column()
+                                const SizedBox(height: 24),
+                                LayoutBuilder(
+                                  builder: (context, actionConstraints) {
+                                    final downloadAction =
+                                        _buildDownloadFeatureButton(
+                                          icon: downloadIcon,
+                                          label: downloadLabel,
+                                          onPressed:
+                                              _downloadUiState ==
+                                                  _DownloadUiState.downloading
+                                              ? null
+                                              : _downloadUiState ==
                                                     _DownloadUiState.done
-                                                ? _openDownloadedFile
-                                                : () => _startDownload(regulation),
-                                      ),
-                                    ],
-                                  ),
-                                  if (_downloadUiState == _DownloadUiState.downloading) ...[
-                                    const SizedBox(height: 12),
-                                    LinearProgressIndicator(
-                                      color: AppTheme.primary,
-                                      value: _downloadProgress,
-                                    ),
-                                  ],
-                                  const SizedBox(height: 20),
+                                              ? _openDownloadedFile
+                                              : () =>
+                                                    _startDownload(regulation),
+                                        );
+
+                                    if (actionConstraints.maxWidth < 350) {
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: _buildDocLanguageToggle(),
+                                          ),
+                                          const SizedBox(height: 12),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: downloadAction,
+                                          ),
+                                        ],
+                                      );
+                                    }
+
+                                    return Row(
+                                      children: [
+                                        _buildDocLanguageToggle(),
+                                        const Spacer(),
+                                        downloadAction,
+                                      ],
+                                    );
+                                  },
+                                ),
+                                if (_downloadUiState ==
+                                    _DownloadUiState.downloading) ...[
                                   const SizedBox(height: 12),
-                                  Wrap(
-                                    spacing: 12,
-                                    runSpacing: 12,
-                                    alignment: WrapAlignment.start,
-                                    crossAxisAlignment: WrapCrossAlignment.center,
-                                    children: [
-                                      const Spacer(),
-                                      _buildFeatureButton(
-                                        icon: Icons.share,
-                                        label: 'Share',
-                                        onPressed: () => _openShareSheet(regulation),
-                                      ),
-                                      // _buildFeatureButton(
-                                      //   icon: _isBookmarked
-                                      //       ? Icons.bookmark
-                                      //       : Icons.bookmark_border,
-                                      //   label: _isBookmarked
-                                      //       ? 'Bookmarked'
-                                      //       : 'Bookmark',
-                                      //   onPressed: _toggleBookmark,
-                                      // ),
-                                    ],
+                                  LinearProgressIndicator(
+                                    color: AppTheme.primary,
+                                    value: _downloadProgress,
                                   ),
-                                  if (_downloadedFilePath != null &&
-                                      _downloadUiState != _DownloadUiState.downloading) ...[
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      'Saved locally for offline preview.',
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: AppTheme.secondaryText,
-                                      ),
-                                    ),
-                                  ],
-                                  
-                                  const SizedBox(height: 16),
-                                  Text(
-                                    regulation.title,
-                                    style: theme.textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  // Text(
-                                  //   'Description',
-                                  //   style: theme.textTheme.titleMedium?.copyWith(
-                                  //     fontWeight: FontWeight.w600,
-                                  //     color: AppTheme.primaryText,
-                                  //   ),
-                                  // ),
-                                  // const SizedBox(height: 8),
-                                  // Text(
-                                  //   regulation.description,
-                                  //   style: theme.textTheme.bodyMedium?.copyWith(
-                                  //     color: AppTheme.secondaryText,
-                                  //     height: 1.6,
-                                  //   ),
-                                  // ),
-                                  const SizedBox(height: 20),
-                                  _buildSectionsCard(),
                                 ],
-                              ),
+                                const SizedBox(height: 20),
+                                const SizedBox(height: 12),
+                                Wrap(
+                                  spacing: 12,
+                                  runSpacing: 12,
+                                  alignment: WrapAlignment.start,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    const Spacer(),
+                                    _buildFeatureButton(
+                                      icon: Icons.share,
+                                      label: 'Share',
+                                      onPressed: () =>
+                                          _openShareSheet(regulation),
+                                    ),
+                                    // _buildFeatureButton(
+                                    //   icon: _isBookmarked
+                                    //       ? Icons.bookmark
+                                    //       : Icons.bookmark_border,
+                                    //   label: _isBookmarked
+                                    //       ? 'Bookmarked'
+                                    //       : 'Bookmark',
+                                    //   onPressed: _toggleBookmark,
+                                    // ),
+                                  ],
+                                ),
+                                if (_downloadedFilePath != null &&
+                                    _downloadUiState !=
+                                        _DownloadUiState.downloading) ...[
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    'Saved locally for offline preview.',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: AppTheme.secondaryText,
+                                    ),
+                                  ),
+                                ],
+
+                                const SizedBox(height: 16),
+                                Text(
+                                  regulation.title,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                // Text(
+                                //   'Description',
+                                //   style: theme.textTheme.titleMedium?.copyWith(
+                                //     fontWeight: FontWeight.w600,
+                                //     color: AppTheme.primaryText,
+                                //   ),
+                                // ),
+                                // const SizedBox(height: 8),
+                                // Text(
+                                //   regulation.description,
+                                //   style: theme.textTheme.bodyMedium?.copyWith(
+                                //     color: AppTheme.secondaryText,
+                                //     height: 1.6,
+                                //   ),
+                                // ),
+                                const SizedBox(height: 20),
+                                _buildSectionsCard(),
+                              ],
                             ),
+                          ),
                           Positioned(
                             right: horizontalPadding,
                             bottom: 20,
@@ -1905,7 +1996,7 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
                                         color: AppTheme.primary,
                                         blurRadius: 30,
                                         offset: Offset(0, 8),
-                                        spreadRadius: 6
+                                        spreadRadius: 6,
                                       ),
                                     ],
                                   ),
@@ -1964,7 +2055,7 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
     return GestureDetector(
       onTap: () => setState(() => _selectedLanguage = lang),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
         decoration: BoxDecoration(
           color: isSelected ? AppTheme.surfaceVariantLight : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
@@ -1991,9 +2082,7 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
         foregroundColor: AppTheme.primaryDark,
         side: const BorderSide(color: AppTheme.borderColor),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       icon: Icon(icon, size: 18),
       label: Text(label),
@@ -2011,16 +2100,13 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
         foregroundColor: AppTheme.surface,
         side: const BorderSide(color: AppTheme.borderColor),
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 22),
-        backgroundColor: AppTheme.langTextSelected,          
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),      
+        backgroundColor: AppTheme.langTextSelected,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
       icon: Icon(icon, size: 18),
       label: Text(label),
     );
   }
-  
 
   Widget _buildShareFormatChip({
     required String label,
@@ -2034,8 +2120,8 @@ class _RegulationDetailScreenState extends State<RegulationDetailScreen> {
       selectedColor: AppTheme.primaryLight.withValues(alpha: 0.35),
       backgroundColor: AppTheme.surface,
       labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: isSelected ? AppTheme.primaryDark : AppTheme.secondaryText,
-          ),
+        color: isSelected ? AppTheme.primaryDark : AppTheme.secondaryText,
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
         side: const BorderSide(color: AppTheme.borderColor),

@@ -28,10 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  
+
                   // Form Section
                   Padding(
                     padding: EdgeInsets.symmetric(
@@ -134,42 +134,52 @@ class _LoginScreenState extends State<LoginScreen> {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         'Email/Phone',
-                                        style: theme.textTheme.labelLarge?.copyWith(),
+                                        style: theme.textTheme.labelLarge
+                                            ?.copyWith(),
                                       ),
                                     ),
                                     const SizedBox(height: 4),
                                     TextFormField(
                                       controller: emailController,
                                       cursorColor: AppTheme.statusGray,
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        color: AppTheme.primaryText,
-                                      ),
+                                      style: theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color: AppTheme.primaryText,
+                                          ),
                                       // hoverColor: AppTheme.primaryLight.withOpacity(0.08),
                                       // focusColor: AppTheme.primaryLight.withOpacity(0.12),
                                       decoration: InputDecoration(
-                                        hintText: 'Enter your email or phone number',
-                                        hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                                          color: AppTheme.statusGray,
-                                        ),
+                                        hintText:
+                                            'Enter your email or phone number',
+                                        hintStyle: theme.textTheme.bodyMedium
+                                            ?.copyWith(
+                                              color: AppTheme.statusGray,
+                                            ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                           borderSide: const BorderSide(
                                             color: AppTheme.borderColor,
                                           ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                           borderSide: const BorderSide(
                                             color: AppTheme.primaryLight,
                                           ),
                                         ),
-                                        contentPadding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                          vertical: 18,
-                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 18,
+                                            ),
                                       ),
                                       validator: (value) {
-                                        if (value == null || value.trim().isEmpty) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
                                           return 'Required field';
                                         }
                                         return null;
@@ -182,8 +192,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         'Password',
-                                        style: theme.textTheme.labelLarge?.copyWith(
-                                        ),
+                                        style: theme.textTheme.labelLarge
+                                            ?.copyWith(),
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -191,32 +201,39 @@ class _LoginScreenState extends State<LoginScreen> {
                                       controller: passwordController,
                                       obscureText: !showPassword,
                                       cursorColor: AppTheme.primaryDark,
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        color: AppTheme.primaryText,
-                                      ),
+                                      style: theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            color: AppTheme.primaryText,
+                                          ),
                                       // hoverColor: AppTheme.primaryLight.withOpacity(0.08),
                                       // focusColor: AppTheme.primaryLight.withOpacity(0.12),
                                       decoration: InputDecoration(
                                         hintText: 'Enter your password',
-                                        hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                                          color: AppTheme.statusGray,
-                                        ),
+                                        hintStyle: theme.textTheme.bodyMedium
+                                            ?.copyWith(
+                                              color: AppTheme.statusGray,
+                                            ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                           borderSide: const BorderSide(
                                             color: AppTheme.borderColor,
                                           ),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(12),
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
                                           borderSide: const BorderSide(
                                             color: AppTheme.primaryLight,
                                           ),
                                         ),
-                                        contentPadding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
-                                          vertical: 18,
-                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 18,
+                                            ),
                                         suffixIcon: IconButton(
                                           icon: Icon(
                                             showPassword
@@ -225,12 +242,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                             color: AppTheme.secondaryText,
                                           ),
                                           onPressed: () {
-                                            setState(() => showPassword = !showPassword);
+                                            setState(
+                                              () =>
+                                                  showPassword = !showPassword,
+                                            );
                                           },
                                         ),
                                       ),
                                       validator: (value) {
-                                        if (value == null || value.trim().isEmpty) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
                                           return 'Required field';
                                         }
                                         return null;
@@ -240,12 +261,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: TextButton(
-                                        onPressed: () => context.go('/forgot-password'),
+                                        onPressed: () =>
+                                            context.go('/forgot-password'),
                                         child: Text(
                                           'Forgot password?',
-                                          style: theme.textTheme.bodySmall?.copyWith(
-                                            decoration: TextDecoration.underline,
-                                          ),
+                                          style: theme.textTheme.bodySmall
+                                              ?.copyWith(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                              ),
                                         ),
                                       ),
                                     ),
@@ -268,78 +292,143 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: ctaHeight,
                                 child: ElevatedButton(
                                   onPressed: isSubmitting
-                                  ? null
-                                  : () async {
-                                    final isValid = _formKey.currentState?.validate() ?? false;
-                                    if (!isValid) return;
-                                    setState(() {
-                                      loginError = null;
-                                      isSubmitting = true;
-                                    });
-                                    try {
-                                      final token = await _apiService.login(
-                                        email:
-                                            emailController.text.trim(),
-                                        password: passwordController.text,
-                                      );
-                                      final userId=await _apiService.logintoGetID(  
-                                        email: emailController.text.trim(),
-                                        password: passwordController.text,
-                                      );
-                                      await SecureStorage.writeUserId(userId);
-                                      await SecureStorage.writeToken(token);
-                                      await AccountProfileStorage.setActiveUserIdentifier(
-                                        emailController.text.trim(),
-                                      );
-                                      try {
-                                        final portfolio = await _apiService.fetchPortfolio(userId);
+                                      ? null
+                                      : () async {
+                                          final isValid =
+                                              _formKey.currentState
+                                                  ?.validate() ??
+                                              false;
+                                          if (!isValid) return;
+                                          setState(() {
+                                            loginError = null;
+                                            isSubmitting = true;
+                                          });
+                                          try {
+                                            final token = await _apiService
+                                                .login(
+                                                  email: emailController.text
+                                                      .trim(),
+                                                  password:
+                                                      passwordController.text,
+                                                );
+                                            final userId = await _apiService
+                                                .logintoGetID(
+                                                  email: emailController.text
+                                                      .trim(),
+                                                  password:
+                                                      passwordController.text,
+                                                );
+                                            await SecureStorage.writeUserId(
+                                              userId,
+                                            );
+                                            await SecureStorage.writeToken(
+                                              token,
+                                            );
+                                            await AccountProfileStorage.setActiveUserIdentifier(
+                                              emailController.text.trim(),
+                                            );
+                                            try {
+                                              final portfolio =
+                                                  await _apiService
+                                                      .fetchPortfolio(userId);
 
-                                        String? readString(List<String> keys) {
-                                          for (final key in keys) {
-                                            final value = portfolio[key];
-                                            if (value is String && value.trim().isNotEmpty) {
-                                              return value.trim();
+                                              String? readString(
+                                                List<String> keys,
+                                              ) {
+                                                for (final key in keys) {
+                                                  final value = portfolio[key];
+                                                  if (value is String &&
+                                                      value.trim().isNotEmpty) {
+                                                    return value.trim();
+                                                  }
+                                                }
+                                                return null;
+                                              }
+
+                                              final firstName = readString(
+                                                const [
+                                                  'first_name',
+                                                  'firstName',
+                                                ],
+                                              );
+                                              final middleName = readString(
+                                                const [
+                                                  'middle_name',
+                                                  'middleName',
+                                                ],
+                                              );
+                                              final lastName = readString(
+                                                const ['last_name', 'lastName'],
+                                              );
+                                              final joinedName =
+                                                  [
+                                                        if (firstName != null)
+                                                          firstName,
+                                                        if (middleName != null)
+                                                          middleName,
+                                                        if (lastName != null)
+                                                          lastName,
+                                                      ]
+                                                      .where(
+                                                        (part) => part
+                                                            .trim()
+                                                            .isNotEmpty,
+                                                      )
+                                                      .join(' ');
+                                              final fullName =
+                                                  readString(const [
+                                                    'full_name',
+                                                    'fullName',
+                                                    'name',
+                                                  ]) ??
+                                                  (joinedName.isNotEmpty
+                                                      ? joinedName
+                                                      : null);
+
+                                              await AccountProfileStorage.saveProfile(
+                                                {
+                                                  if (firstName != null)
+                                                    'firstName': firstName,
+                                                  if (lastName != null)
+                                                    'lastName': lastName,
+                                                  if (fullName != null)
+                                                    'fullName': fullName,
+                                                  if (readString(const [
+                                                        'email',
+                                                      ]) !=
+                                                      null)
+                                                    'email': readString(const [
+                                                      'email',
+                                                    ]),
+                                                  if (readString(const [
+                                                        'phone',
+                                                        'phone_number',
+                                                      ]) !=
+                                                      null)
+                                                    'phone': readString(const [
+                                                      'phone',
+                                                      'phone_number',
+                                                    ]),
+                                                },
+                                              );
+                                            } catch (_) {}
+                                            if (!mounted) return;
+                                            context.go('/home');
+                                          } on ApiServiceException catch (
+                                            error
+                                          ) {
+                                            if (!mounted) return;
+                                            setState(
+                                              () => loginError = error.message,
+                                            );
+                                          } finally {
+                                            if (mounted) {
+                                              setState(
+                                                () => isSubmitting = false,
+                                              );
                                             }
                                           }
-                                          return null;
-                                        }
-
-                                        final firstName =
-                                            readString(const ['first_name', 'firstName']);
-                                        final middleName =
-                                            readString(const ['middle_name', 'middleName']);
-                                        final lastName =
-                                            readString(const ['last_name', 'lastName']);
-                                        final joinedName = [
-                                          if (firstName != null) firstName,
-                                          if (middleName != null) middleName,
-                                          if (lastName != null) lastName,
-                                        ].where((part) => part.trim().isNotEmpty).join(' ');
-                                        final fullName =
-                                            readString(const ['full_name', 'fullName', 'name']) ??
-                                            (joinedName.isNotEmpty ? joinedName : null);
-
-                                        await AccountProfileStorage.saveProfile({
-                                          if (firstName != null) 'firstName': firstName,
-                                          if (lastName != null) 'lastName': lastName,
-                                          if (fullName != null) 'fullName': fullName,
-                                          if (readString(const ['email']) != null)
-                                            'email': readString(const ['email']),
-                                          if (readString(const ['phone', 'phone_number']) != null)
-                                            'phone': readString(const ['phone', 'phone_number']),
-                                        });
-                                      } catch (_) {}
-                                      if (!mounted) return;
-                                      context.go('/home');
-                                    } on ApiServiceException catch (error) {
-                                      if (!mounted) return;
-                                      setState(() => loginError = error.message);
-                                    } finally {
-                                      if (mounted) {
-                                        setState(() => isSubmitting = false);
-                                      }
-                                    }
-                                  },
+                                        },
                                   style: ElevatedButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     shape: RoundedRectangleBorder(
@@ -369,17 +458,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     height: 22,
                                                     child: CircularProgressIndicator(
                                                       strokeWidth: 2.5,
-                                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                                        Colors.white,
-                                                      ),
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                            Color
+                                                          >(Colors.white),
                                                     ),
                                                   )
                                                 : Text(
                                                     'Sign In',
                                                     textAlign: TextAlign.center,
-                                                    style: theme.textTheme.titleLarge?.copyWith(
-                                                      color: AppTheme.surface,
-                                                    ),
+                                                    style: theme
+                                                        .textTheme
+                                                        .titleLarge
+                                                        ?.copyWith(
+                                                          color:
+                                                              AppTheme.surface,
+                                                        ),
                                                   ),
                                           ),
                                         ),
@@ -393,19 +487,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "Don't have an account?",
-                                          style: theme.textTheme.bodyMedium?.copyWith(),
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(),
                                         ),
                                         TextButton(
-                                          onPressed: () => context.go('/register'),
+                                          onPressed: () =>
+                                              context.go('/register'),
                                           child: Text(
                                             'Register now',
-                                            style: theme.textTheme.bodyMedium?.copyWith(
-                                              color: AppTheme.primary,
-                                            ),
+                                            style: theme.textTheme.bodyMedium
+                                                ?.copyWith(
+                                                  color: AppTheme.primary,
+                                                ),
                                           ),
                                         ),
                                       ],
@@ -413,19 +511,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                     const SizedBox(height: 8),
                                     Text(
                                       'or',
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        fontSize: 16,
-                                        color: AppTheme.secondaryText,
-                                      ),
+                                      style: theme.textTheme.bodyMedium
+                                          ?.copyWith(
+                                            fontSize: 16,
+                                            color: AppTheme.secondaryText,
+                                          ),
                                     ),
                                     const SizedBox(height: 8),
                                     TextButton(
-                                      onPressed: () => context.go('/home'),
+                                      onPressed: () async {
+                                        await SecureStorage.clearToken();
+                                        if (!mounted) {
+                                          return;
+                                        }
+                                        context.go('/home');
+                                      },
                                       child: Text(
                                         'Continue as Guest',
-                                        style: theme.textTheme.bodyMedium?.copyWith(
-                                          color: AppTheme.primary,
-                                        ),
+                                        style: theme.textTheme.bodyMedium
+                                            ?.copyWith(color: AppTheme.primary),
                                       ),
                                     ),
                                   ],
@@ -440,9 +544,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ],
               ),
             );
-          }
-        )
-      )
+          },
+        ),
+      ),
     );
   }
 }

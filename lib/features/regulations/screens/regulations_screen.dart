@@ -7,26 +7,20 @@ import '../../../core/models/regulation_filter.dart';
 import '../../../core/services/draft_api.dart';
 import '../../../core/storage/bookmark_storage.dart';
 import '../../../core/theme.dart';
-import '../widgets/regulation_card.dart';
 import '../../home/bottomnavs/bottom_nav.dart';
+import '../widgets/regulation_card.dart';
 
 class RegulationsScreen extends StatefulWidget {
   final String? initialQuery;
 
-  const RegulationsScreen({
-    super.key,
-    this.initialQuery,
-  });
+  const RegulationsScreen({super.key, this.initialQuery});
 
   @override
   State<RegulationsScreen> createState() => _RegulationsScreenState();
 }
 
 class _RegulationsScreenState extends State<RegulationsScreen> {
-  static const List<String> _statusOptions = [
-    'Open',
-    'Closed',
-  ];
+  static const List<String> _statusOptions = ['Open', 'Closed'];
 
   static const List<String> _categoryOptions = [
     'Proclamation',
@@ -142,14 +136,14 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
     }
 
     try {
-      final PaginatedResponse<Regulation> response =
-          await _draftApi.fetchDraftRegulations(
-        page: _page,
-        pageSize: _pageSize,
-        query: _searchController.text,
-        filter: _filter.isEmpty ? null : _filter,
-        sortDescending: _sortDescending,
-      );
+      final PaginatedResponse<Regulation> response = await _draftApi
+          .fetchDraftRegulations(
+            page: _page,
+            pageSize: _pageSize,
+            query: _searchController.text,
+            filter: _filter.isEmpty ? null : _filter,
+            sortDescending: _sortDescending,
+          );
 
       setState(() {
         if (reset) {
@@ -200,90 +194,121 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
 
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return Padding(
-              padding: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                top: 20,
-                bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Filters',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 16),
-                  _buildDropdown(
-                    label: 'Status',
-                    value: selectedStatus,
-                    options: _statusOptions,
-                    onChanged: (value) =>
-                        setModalState(() => selectedStatus = value),
-                  ),
-                  _buildDropdown(
-                    label: 'Category',
-                    value: selectedCategory,
-                    options: _categoryOptions,
-                    onChanged: (value) =>
-                        setModalState(() => selectedCategory = value),
-                  ),
-                  _buildDropdown(
-                    label: 'Region',
-                    value: selectedRegion,
-                    options: _regionOptions,
-                    onChanged: (value) =>
-                        setModalState(() => selectedRegion = value),
-                  ),
-                  _buildDropdown(
-                    label: 'Institution',
-                    value: selectedInstitution,
-                    options: _institutionOptions,
-                    onChanged: (value) =>
-                        setModalState(() => selectedInstitution = value),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            setModalState(() {
-                              selectedStatus = null;
-                              selectedCategory = null;
-                              selectedRegion = null;
-                              selectedInstitution = null;
-                              selectedSortDescending = true;
-                            });
-                          },
-                          child: const Text('Reset'),
+            final viewInsets = MediaQuery.of(context).viewInsets.bottom;
+
+            return DraggableScrollableSheet(
+              expand: false,
+              initialChildSize: 0.62,
+              minChildSize: 0.4,
+              maxChildSize: 0.9,
+              builder: (context, scrollController) {
+                return SafeArea(
+                  top: false,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(20, 12, 20, 20 + viewInsets),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Container(
+                            width: 44,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: AppTheme.borderColor,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            setState(() {
-                              _filter = RegulationFilter(
-                                status: selectedStatus,
-                                category: selectedCategory,
-                                region: selectedRegion,
-                                institution: selectedInstitution,
-                              );
-                              _sortDescending = selectedSortDescending;
-                            });
-                            _fetchRegulations(reset: true);
-                          },
-                          child: const Text('Apply'),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Filters',
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            controller: scrollController,
+                            child: Column(
+                              children: [
+                                _buildDropdown(
+                                  label: 'Status',
+                                  value: selectedStatus,
+                                  options: _statusOptions,
+                                  onChanged: (value) => setModalState(
+                                    () => selectedStatus = value,
+                                  ),
+                                ),
+                                _buildDropdown(
+                                  label: 'Category',
+                                  value: selectedCategory,
+                                  options: _categoryOptions,
+                                  onChanged: (value) => setModalState(
+                                    () => selectedCategory = value,
+                                  ),
+                                ),
+                                _buildDropdown(
+                                  label: 'Region',
+                                  value: selectedRegion,
+                                  options: _regionOptions,
+                                  onChanged: (value) => setModalState(
+                                    () => selectedRegion = value,
+                                  ),
+                                ),
+                                _buildDropdown(
+                                  label: 'Institution',
+                                  value: selectedInstitution,
+                                  options: _institutionOptions,
+                                  onChanged: (value) => setModalState(
+                                    () => selectedInstitution = value,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  setModalState(() {
+                                    selectedStatus = null;
+                                    selectedCategory = null;
+                                    selectedRegion = null;
+                                    selectedInstitution = null;
+                                    selectedSortDescending = true;
+                                  });
+                                },
+                                child: const Text('Reset'),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    _filter = RegulationFilter(
+                                      status: selectedStatus,
+                                      category: selectedCategory,
+                                      region: selectedRegion,
+                                      institution: selectedInstitution,
+                                    );
+                                    _sortDescending = selectedSortDescending;
+                                  });
+                                  _fetchRegulations(reset: true);
+                                },
+                                child: const Text('Apply'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                );
+              },
             );
           },
         );
@@ -340,7 +365,6 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
                               28,
                             ),
                             child: Column(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 24),
                                 Row(
@@ -356,10 +380,11 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
                                       child: Text(
                                         'Draft Documents',
                                         textAlign: TextAlign.center,
-                                        style: theme.textTheme.headlineMedium?.copyWith(
-                                          color: AppTheme.surface,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                        style: theme.textTheme.headlineMedium
+                                            ?.copyWith(
+                                              color: AppTheme.surface,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                       ),
                                     ),
                                     // IconButton(
@@ -372,17 +397,18 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
                                   ],
                                 ),
                                 const SizedBox(height: 24),
-                           
                                 TextField(
                                   controller: _searchController,
-                                  onSubmitted: (_) => _fetchRegulations(reset: true),
+                                  onSubmitted: (_) =>
+                                      _fetchRegulations(reset: true),
                                   decoration: InputDecoration(
-                                    hintText: 
-                                      'Acts, amendments, publication etc',
-                                    hintStyle: theme.textTheme.labelSmall?.copyWith(
-                                      color: AppTheme.secondaryText,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                                    hintText:
+                                        'Acts, amendments, publication etc',
+                                    hintStyle: theme.textTheme.labelSmall
+                                        ?.copyWith(
+                                          color: AppTheme.secondaryText,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                     prefixIcon: const Icon(
                                       Icons.search,
                                       color: AppTheme.secondaryText,
@@ -417,9 +443,7 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: _refresh,
-                    child: _buildContent(
-                      horizontalPadding: horizontalPadding
-                    ),
+                    child: _buildContent(horizontalPadding: horizontalPadding),
                   ),
                 ),
               ],
@@ -448,10 +472,7 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
     );
   }
 
-  Widget _buildContent({
-    required double horizontalPadding
-  }) {
-
+  Widget _buildContent({required double horizontalPadding}) {
     if (_isLoading) {
       return ListView.builder(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -465,9 +486,7 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
       return ListView(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(20),
-        children: [
-          Text(_errorMessage!),
-        ],
+        children: [Text(_errorMessage!)],
       );
     }
 
@@ -475,20 +494,16 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
       return ListView(
         physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.all(20),
-        children: const [
-          Text('No regulations found.'),
-        ],
+        children: const [Text('No regulations found.')],
       );
     }
 
     return ListView.builder(
       controller: _scrollController,
       padding: EdgeInsets.symmetric(
-      // padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
         horizontal: horizontalPadding,
         vertical: 24,
       ),
-      // padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
       itemCount: _regulations.length + (_isLoadingMore ? 1 : 0),
       itemBuilder: (context, index) {
         if (index >= _regulations.length) {
@@ -563,22 +578,38 @@ class _RegulationsScreenState extends State<RegulationsScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: DropdownButtonFormField<String>(
+        isExpanded: true,
         value: value,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         ),
         items: options
-            .map((option) => DropdownMenuItem(
-                  value: option,
-                  child: Text(option),
-                ))
+            .map(
+              (option) => DropdownMenuItem(
+                value: option,
+                child: Text(
+                  option,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            )
+            .toList(),
+        selectedItemBuilder: (context) => options
+            .map(
+              (option) => Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  option,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            )
             .toList(),
         onChanged: onChanged,
       ),
     );
   }
-
 }

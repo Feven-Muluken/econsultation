@@ -70,42 +70,66 @@ class RegulationCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: statusColors.background,
-                              borderRadius: BorderRadius.circular(999),
-                            ),
-                            child: Text(
-                              '${regulation.commentClosed?"closed":"open"} for comment',
-                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                    color: 
-                                    statusColors.text,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                          Expanded(
+                            child: Container(
+                            
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: statusColors.background,
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: Text(
+                                '${regulation.commentClosed?"closed":"open"} for comment',
+                                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                      color: 
+                                      statusColors.text,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                              ),
                             ),
                           ),
                           const SizedBox(width: 12),
-                          Text.rich(
-                            TextSpan(
-                              text: 'Law Category: ',
-                              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                    color: AppTheme.lightText,
-                                    fontWeight: FontWeight.w600,
+                          Expanded(
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'Law Category: ',
+                                style: theme.textTheme.labelSmall?.copyWith(
+                                  color: AppTheme.lightText,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: regulation.category,
+                                    style: theme.textTheme.labelSmall?.copyWith(
+                                      color: AppTheme.secondaryText,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: regulation.category,
-                                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                        color: AppTheme.secondaryText,
-                                      ),
-                                )
-                              ],
+                                ],
+                              ),
                             ),
                           ),
+                          // Text.rich(
+                            // TextSpan(
+                            //   text: 'Law Category: ',
+                            //   style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            //         color: AppTheme.lightText,
+                            //         fontWeight: FontWeight.w600,
+                            //       ),
+                            //   children: <TextSpan>[
+                            //     TextSpan(
+                            //       text: regulation.category,
+                            //       style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            //             color: AppTheme.secondaryText,
+                            //           ),
+                            //     )
+                            //   ],
+                            // ),
+                          // ),
                         ],
                       ),
                       const SizedBox(height: 8),

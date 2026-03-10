@@ -1,4 +1,4 @@
-# Copilot Instructions for econsultation
+# Instructions for econsultation
 
 ## Project shape
 - Flutter app organized by **core + features**:
